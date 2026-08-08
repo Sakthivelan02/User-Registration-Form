@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Modern Registration Form</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Segoe UI', Arial, sans-serif;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: radial-gradient(
+            circle at top left,
+            #7c3aed,
+            transparent 35%
+          ),
+          radial-gradient(circle at bottom right, #06b6d4, transparent 35%),
+          #111827;
+        padding: 20px;
+      }
+
+      /* Main Card */
+      .register-card {
+        width: 400px;
+        padding: 25px;
+        border-radius: 25px;
+        background: rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+        color: white;
+      }
+
+      /* Heading */
+      .header {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      .logo {
+        width: 65px;
+        height: 65px;
+        margin: 0 auto 15px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 30px;
+        background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+        box-shadow: 0 10px 25px rgba(6, 182, 212, 0.3);
+      }
+
+      .header h2 {
+        font-size: 28px;
+        margin-bottom: 7px;
+      }
+
+      .header p {
+        color: #cbd5e1;
+        font-size: 14px;
+      }
+
+      /* Form Groups */
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 14px;
+        color: #e2e8f0;
+      }
+
+      .input-box {
+        position: relative;
+      }
+
+      .input-icon {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 17px;
+        opacity: 0.7;
+      }
+
+      input {
+        width: 100%;
+        padding: 13px 15px 13px 45px;
+        border: 2px solid transparent;
+        border-radius: 12px;
+        outline: none;
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        font-size: 15px;
+        transition: 0.3s ease;
+      }
+
+      input::placeholder {
+        color: #94a3b8;
+      }
+
+      input:focus {
+        border-color: #06b6d4;
+        background: rgba(255, 255, 255, 0.15);
+        box-shadow: 0 0 15px rgba(6, 182, 212, 0.2);
+      }
+
+      input.valid {
+        border-color: #22c55e;
+      }
+
+      input.invalid {
+        border-color: #ef4444;
+      }
+
+      /* Error Messages */
+      .error {
+        color: #fca5a5;
+        font-size: 12px;
+        margin-top: 6px;
+        min-height: 16px;
+      }
+
+      /* Register Button */
+      button {
+        width: 100%;
+        padding: 14px;
+        margin-top: 5px;
+        border: none;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s ease;
+      }
+
+      button:not(:disabled):hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(6, 182, 212, 0.35);
+      }
+
+      button:disabled {
+        background: #475569;
+        color: #94a3b8;
+        cursor: not-allowed;
+      }
+
+      /* Success Message */
+      #successMessage {
+        text-align: center;
+        color: #86efac;
+        font-size: 14px;
+        margin-top: 18px;
+        min-height: 20px;
+      }
+
+      /* Mobile */
+      @media (max-width: 450px) {
+        .register-card {
+          width: 100%;
+          padding: 25px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    
+    <div class="register-card">
+      <div class="header">
+        <h2>Create Account</h2>
+      </div>
+
+      <form id="registrationForm">
+        <!-- Name -->
+        <div class="form-group">
+          <label for="name">Full Name</label>
+
+          <div class="input-box">
+            <input type="text" id="name" placeholder="Enter your full name" />
+          </div>
+
+          <div id="nameError" class="error"></div>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+          <label for="email">Email Address</label>
+
+          <div class="input-box">
+            <input type="text" id="email" placeholder="Enter your email" />
+          </div>
+
+          <div id="emailError" class="error"></div>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+          <label for="password">Password</label>
+
+          <div class="input-box">
+            <input
+              type="password"
+              id="password"
+              placeholder="Minimum 6 characters"
+            />
+          </div>
+
+          <div id="passwordError" class="error"></div>
+        </div>
+
+        <!-- Button -->
+        <button type="submit" id="submitBtn">Create Account</button>
+
+        <div id="successMessage"></div>
+      </form>
+    </div>
+
+    <script>
+      const nameInput = document.getElementById('name')
+      const emailInput = document.getElementById('email')
+      const passwordInput = document.getElementById('password')
+
+      const nameError = document.getElementById('nameError')
+      const emailError = document.getElementById('emailError')
+      const passwordError = document.getElementById('passwordError')
+
+      const submitBtn = document.getElementById('submitBtn')
+      const form = document.getElementById('registrationForm')
+      const successMessage = document.getElementById('successMessage')
+
+      // Validate Name
+      function validateName() {
+        if (nameInput.value.trim() === '') {
+          nameError.textContent = 'Please enter your name.'
+
+          nameInput.classList.add('invalid')
+          nameInput.classList.remove('valid')
+
+          return false
+        }
+
+        nameError.textContent = ''
+
+        nameInput.classList.add('valid')
+        nameInput.classList.remove('invalid')
+
+        return true
+      }
+
+      // Validate Email
+      function validateEmail() {
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+        if (emailInput.value.trim() === '') {
+          emailError.textContent = 'Please enter your email.'
+
+          emailInput.classList.add('invalid')
+          emailInput.classList.remove('valid')
+
+          return false
+        }
+
+        if (!emailPattern.test(emailInput.value.trim())) {
+          emailError.textContent = 'Please enter a valid email address.'
+
+          emailInput.classList.add('invalid')
+          emailInput.classList.remove('valid')
+
+          return false
+        }
+
+        emailError.textContent = ''
+
+        emailInput.classList.add('valid')
+        emailInput.classList.remove('invalid')
+
+        return true
+      }
+
+      // Validate Password
+      function validatePassword() {
+        if (passwordInput.value.length < 6) {
+          passwordError.textContent =
+            'Password must contain at least 6 characters.'
+
+          passwordInput.classList.add('invalid')
+          passwordInput.classList.remove('valid')
+
+          return false
+        }
+
+        passwordError.textContent = ''
+
+        passwordInput.classList.add('valid')
+        passwordInput.classList.remove('invalid')
+
+        return true
+      }
+
+      // Check Entire Form
+      function checkFormValidity() {
+        const nameValid = validateName()
+        const emailValid = validateEmail()
+        const passwordValid = validatePassword()
+
+        submitBtn.disabled = !(nameValid && emailValid && passwordValid)
+      }
+
+      // Real-time Validation
+      nameInput.addEventListener('input', checkFormValidity)
+
+      emailInput.addEventListener('input', checkFormValidity)
+
+      passwordInput.addEventListener('input', checkFormValidity)
+
+      // Form Submission
+      form.addEventListener('submit', function (event) {
+        event.preventDefault()
+
+        if (validateName() && validateEmail() && validatePassword()) {
+          successMessage.textContent = '✓ Account created successfully!'
+
+          form.reset()
+
+          nameInput.classList.remove('valid')
+          emailInput.classList.remove('valid')
+          passwordInput.classList.remove('valid')
+
+          submitBtn.disabled = true
+        }
+      })
+    </script>
+  </body>
+</html>
